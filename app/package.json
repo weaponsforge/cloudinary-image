@@ -1,0 +1,31 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "weaponsforge",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc-alias",
+    "types:check": "tsc -p tsconfig.json --noEmit",
+    "watch": "tsc -p tsconfig.json --watch",
+    "lint": "eslint \"src/**/*.ts\" *.mjs",
+    "lint:fix": "eslint \"src/**/*.ts\" *.mjs --fix",
+    "docker:debug": "export IS_DOCKER=true && node --inspect=0.0.0.0:9229 --import tsx src/utils/sample.ts",
+    "docker:watch:win": "tsc -p tsconfig.json --watch --watchFile dynamicPriorityPolling --watchDirectory dynamicPriorityPolling"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.2.0",
+    "eslint": "^10.8.1",
+    "globals": "^17.11.0",
+    "tsc-alias": "^1.9.1",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
+  }
+}
