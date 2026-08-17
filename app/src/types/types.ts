@@ -1,4 +1,4 @@
-import type { TransformationOptions, ConfigAndUrlOptions } from 'cloudinary';
+import type { TransformationOptions, ConfigAndUrlOptions } from 'cloudinary'
 
 // ----------------------------------------------------
 // Base Image types
@@ -57,9 +57,9 @@ export interface TransformationStyles {
   width?: number;
   height?: number;
   radius?: 'max' | number;
-  border?: string;                 // eg., 10px_solid_rgb:bde4fb
+  border?: string; // eg., 10px_solid_rgb:bde4fb
   background?: 'auto' | string;
-  effect?: string;                 // eg., tint:40:red, improve:outdoor, art:zorro
+  effect?: string; // eg., tint:40:red, improve:outdoor, art:zorro
 }
 
 /*

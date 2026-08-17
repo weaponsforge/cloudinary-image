@@ -1,14 +1,14 @@
-import BaseImage from "./cloudinary/baseimage.js";
-import AssetService from "./cloudinary/service.js";
-import type { ImageLocation, TransformationParams } from "@/types/types.js";
-import Transform from "./cloudinary/transform.js";
-import type { UploadApiResponse } from "cloudinary";
-import AssetManager from "./cloudinary/manager.js";
-import { handleError } from "@/utils/helpers.js";
+import BaseImage from './cloudinary/baseimage.js'
+import AssetService from './cloudinary/service.js'
+import type { ImageLocation, TransformationParams } from '@/types/types.js'
+import Transform from './cloudinary/transform.js'
+import type { UploadApiResponse } from 'cloudinary'
+import AssetManager from './cloudinary/manager.js'
+import { handleThrowError } from '@/utils/helpers.js'
 
 const METHODS = {
   UPLOAD: 'CLOUD-IMAGE-UPLOAD',
-  OPTIMIZE: 'CLOUD-IMAGE-OPTIMIZE'
+  OPTIMIZE: 'CLOUD-IMAGE-OPTIMIZE',
 }
 
 export default class CloudinaryImage extends BaseImage {
@@ -23,21 +23,22 @@ export default class CloudinaryImage extends BaseImage {
   }
 
   /**
-   * Uploads the `localFile` to the `cloudinaryAssetFolder`
-   * @returns
+   * Uploads the `localFile` image to the `cloudinaryAssetFolder`
    */
   async upload () {
     try {
-      console.log('---uploading', this.publicId, this.cloudinaryAssetFolder)
+      this.log(`Uploading ${this.location.localFile} to\n${this.cloudinaryAssetFolder}`)
+
       const response = await this.service.upload(this.location.localFile, {
         public_id: this.publicId,
-        asset_folder: this.cloudinaryAssetFolder
+        asset_folder: this.cloudinaryAssetFolder,
       })
 
       this.meta = response
+
       return response
     } catch (error) {
-      return handleError(error, METHODS.UPLOAD)
+      return handleThrowError(error, METHODS.UPLOAD)
     }
   }
 
@@ -49,6 +50,9 @@ export default class CloudinaryImage extends BaseImage {
    */
   async optimize (customWidth: number = 800) {
     try {
+      this.log('\nStarting optimization...')
+      this.log('Fetching Cloudinary resource...')
+
       const maxWidth = 800
       const resource = await this.manager.getResource(this.location.publicId!)
       const { public_id, width } = resource
@@ -61,14 +65,22 @@ export default class CloudinaryImage extends BaseImage {
         transformOptions = {
           ...transformOptions,
           width: customWidth,
-          crop: 'scale'
+          crop: 'scale',
         }
       }
 
+      this.log('Optimizing image...')
       const result = await this.transformer.quality(public_id, 'auto', transformOptions)
+
+      this.log('Fetching optimized image...')
+
       return await this.service.fetchImage(result, this.location.localDestination!)
     } catch (error) {
-      handleError(error, METHODS.OPTIMIZE)
+      handleThrowError(error, METHODS.OPTIMIZE)
     }
+  }
+
+  async delete () {
+    return await this.manager.deleteResources([this.publicId])
   }
 }

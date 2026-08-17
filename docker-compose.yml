@@ -10,9 +10,10 @@ services:
       dockerfile: Dockerfile
       target: development
     volumes:
-      - .:/opt/app
+      - ./app:/opt/app
       - /opt/app/node_modules
     ports:
+
       - "9229:9229"     # VSCode debugger
     environment:
       - NODE_ENV=development

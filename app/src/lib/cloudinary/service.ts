@@ -1,10 +1,10 @@
 import { v2 as cloudinary } from 'cloudinary'
-import { handleError, writeToFileBuffer } from '@/utils/helpers.js'
+import { handleThrowError, writeToFileBuffer } from '@/utils/helpers.js'
 import type{ UploadApiOptions } from 'cloudinary'
 
 const METHODS = {
   UPLOAD: 'UPLOAD',
-  FETCH: 'FETCH'
+  FETCH: 'FETCH',
 }
 
 export default class AssetService {
@@ -12,13 +12,13 @@ export default class AssetService {
     try {
       return await cloudinary.uploader.upload(file, options)
     } catch (err) {
-      return handleError(err, METHODS.UPLOAD)
+      return handleThrowError(err, METHODS.UPLOAD)
     }
   }
 
   async fetchImage (url: string, filePath: string) {
-    if (!Boolean(url)) throw new Error('Undefined URL')
-    if (!Boolean(filePath)) throw new Error('Undefined filePath')
+    if (!url) throw new Error('Undefined URL')
+    if (!filePath) throw new Error('Undefined filePath')
 
     try {
       const response = await fetch(url)
@@ -32,7 +32,7 @@ export default class AssetService {
 
       console.log(`[${METHODS.FETCH}]: File downloaded in\n${filePath}`)
     } catch (err: unknown) {
-      handleError(err, METHODS.FETCH)
+      handleThrowError(err, METHODS.FETCH)
     }
   }
 }

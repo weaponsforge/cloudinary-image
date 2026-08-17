@@ -1,9 +1,10 @@
-import { v2 as cloudinary } from 'cloudinary'
-import type { ImageLocation } from "@/types/types.js"
-import { createDirectory, directory, getFileName, handleError } from '@/utils/helpers.js'
-import { basename, dirname, join } from 'node:path'
+import { join } from 'node:path'
 
-const NAME = 'BASE IMAGE'
+import { v2 as cloudinary } from 'cloudinary'
+import type { ImageLocation } from '@/types/types.js'
+import { createDirectory, getFileName } from '@/utils/helpers.js'
+
+const CLASS_NAME = 'BASE IMAGE'
 
 /**
  * Base Cloudinary to local file image definitions.
@@ -13,8 +14,10 @@ export default class BaseImage {
     localFile: '',
     localDestination: '',
     publicId: '',
-    cloudinaryAssetFolder: ''
+    cloudinaryAssetFolder: '',
   }
+
+  name: string = ''
 
   constructor (options: ImageLocation) {
     this.initialize(options)
@@ -23,55 +26,66 @@ export default class BaseImage {
     cloudinary.config({
       cloud_name: process.env.CLOUDINARY_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET
+      api_secret: process.env.CLOUDINARY_API_SECRET,
     })
   }
 
   initialize (options: ImageLocation) {
-    if (!Boolean(options.localFile)) {
-      throw new Error('BASE IMAGE: missing localFile or localDestination params')
+    if (!options.localFile) {
+      throw new Error(`${CLASS_NAME}: missing localFile or localDestination params`)
     }
 
+    const fileName = getFileName(options.localFile)
+    this.name = getFileName(options.localFile)
     this.location = options
 
-    if (!Boolean(this.location.publicId)) {
-      this.location.publicId = this.location.localFile.substring(
-        this.location.localFile.lastIndexOf('/') + 1,
-        this.location.localFile.length
-      )
+    if (!this.location.publicId) {
+      this.location.publicId = fileName
     }
 
-    if (!Boolean(this.location.localDestination)) {
+    if (!this.location.localDestination) {
       createDirectory(this.location.localFile)
         .then(destDir => {
-          const fileName = getFileName(this.location.localFile)
           const destFile = join(destDir, fileName)
           this.location.localDestination = destFile
         })
         .catch(err => {
-          throw new Error(`${NAME}: Failed to create destination directory`)
+          throw new Error(
+            `${CLASS_NAME}: Failed to create destination directory`, {
+              cause: err,
+            })
         })
     }
   }
 
+  log (message: string) {
+    console.log(`[${this.name}]: ${message}`)
+  }
+
   /**
-   * Set the internal publicId
+   * Sets the internal publicId
    */
   set publicId (publicId: string) {
     this.location.publicId = publicId
   }
 
   /**
-   * Get the internal publicId
+   * Returns the internal publicId
    */
   get publicId () {
     return this.location.publicId ?? '-'
   }
 
+  /**
+   * Sets the cloudinaryAssetFolder
+   */
   set cloudinaryAssetFolder (assetFolder: string) {
     this.location.cloudinaryAssetFolder = assetFolder
   }
 
+  /**
+   * Returns the internal cloudinaryAssetFolder
+   */
   get cloudinaryAssetFolder () {
     return this.location.cloudinaryAssetFolder ?? '-'
   }

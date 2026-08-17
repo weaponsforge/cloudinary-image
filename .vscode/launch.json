@@ -10,8 +10,8 @@
       "name": "Attach to Docker",
       "port": 9229,
       "address": "localhost",
-      "localRoot": "${workspaceFolder}/src",
-      "remoteRoot": "/opt/app/src"
+      "localRoot": "${workspaceFolder}/app",
+      "remoteRoot": "/opt/app"
     },
   ]
 }

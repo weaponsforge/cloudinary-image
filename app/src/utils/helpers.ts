@@ -39,10 +39,10 @@ export const getFileName = (pathToFile: string) => {
 
 export const createDirectory = async (pathToFile: string, newDir: string = 'processed') => {
   const assetDir = dirname(pathToFile)
-  const fileName = getFileName(pathToFile)
   const destDir = join(assetDir, newDir)
 
   await fs.mkdir(destDir, { recursive: true })
+
   return destDir
 }
 
@@ -69,10 +69,47 @@ export const loadEnv = (pathToEnv: string | undefined) => {
   })
 }
 
-export const handleError =  (error: unknown, prefix: string = 'LOG'): never => {
-  if (error instanceof Error || error?.name === 'Error') {
-    throw new Error(`[${prefix}] Error: ${error.message}`, { cause: error })
+/**
+ * Re-throws an Error with log from calling function
+ * @param error - Error object
+ * @param prefix - Calling function identifier
+ */
+export const handleThrowError = (error: unknown, prefix: string = 'LOG'): never => {
+  if (error instanceof Error) {
+    const msg = `[${prefix}] Error: ${error.message}`
+    throw new Error(msg, { cause: error })
   }
 
-  throw new Error(`[${prefix}] An unknown error occured`, { cause: error })
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error
+  ) {
+    throw new Error(
+      `[${prefix}] Error: ${String(error.message)}`,
+      { cause: error },
+    )
+  }
+
+  const msgUnknown = `[${prefix}] An unknown error occured`
+  throw new Error(msgUnknown, { cause: error })
+}
+
+/**
+ * Logs an Error with log from calling function
+ * @param error - Error object
+ * @param prefix - Calling function identifier
+ */
+export const handleLogError = (error: unknown, prefix: string = 'LOG') => {
+  if (error instanceof Error) {
+    console.log(`[${prefix}] Error: ${String(error.message)}`)
+  } else if (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error
+  ) {
+    console.log(`[${prefix}] Error: ${String(error.message)}`)
+  } else {
+    console.log(`[${prefix}] An unknown error occured`)
+  }
 }

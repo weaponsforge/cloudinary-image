@@ -1,7 +1,8 @@
-import { join } from "node:path";
+import { join } from 'node:path'
 import dotenv from 'dotenv'
 
-import CloudinaryImage from "./lib/image.js";
+import CloudinaryImage from './lib/image.js'
+import { handleLogError } from './utils/helpers.js'
 
 dotenv.config()
 
@@ -12,16 +13,22 @@ const main = async () => {
 
     const image = new CloudinaryImage({
       localFile: file,
-      cloudinaryAssetFolder: 'image-optimizer'
+      cloudinaryAssetFolder: 'image-optimizer',
     })
 
-    const resUpload = await image.upload()
-    const resOptimize = await image.optimize()
+    // await image.upload()
+    // await image.optimize()
+    await image.delete()
 
-    console.log('---done', resOptimize )
   } catch (err) {
-    console.log('---err', err.message)
+    handleLogError(err)
   }
 }
 
-main()
+if (process.env.IS_DOCKER === 'true') {
+  setTimeout(() => {
+    main()
+  }, 5000)
+} else {
+  main()
+}

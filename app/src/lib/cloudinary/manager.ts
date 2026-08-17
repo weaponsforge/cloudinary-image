@@ -8,4 +8,10 @@ export default class AssetManager {
   async getResource (publicId: string, options?: AdminAndPublishOptions | undefined) {
     return await cloudinary.api.resource(publicId, options)
   }
+
+  async deleteResources (publicIds: string[] = []) {
+    if (publicIds.length === 0) return
+    const result = await cloudinary.api.delete_resources(publicIds, { invalidate: true })
+    console.log(result)
+  }
 }

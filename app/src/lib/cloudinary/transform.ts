@@ -1,14 +1,13 @@
-
 import { v2 as cloudinary } from 'cloudinary'
-import { handleError } from '@/utils/helpers.js'
-import type { ImageSize, ImageCropOptions } from '@/types/types.js';
-import type { TransformationParams } from '@/types/types.js';
+import { handleThrowError } from '@/utils/helpers.js'
+import type { ImageSize, ImageCropOptions } from '@/types/types.js'
+import type { TransformationParams } from '@/types/types.js'
 
 const METHODS = {
   RESIZE: 'RESIZE',
   CROP: 'CROP',
   FORMAT: 'FORMAT',
-  QUALITY: 'QUALITY'
+  QUALITY: 'QUALITY',
 }
 
 /**
@@ -35,17 +34,17 @@ export default class Transform {
    */
   async resize (
     publicId: string,
-    options: ImageSize
+    options: ImageSize,
   ) {
     const { width, height } = options
     const hasWidth = Boolean(width)
     const hasHeight = Boolean(height)
 
     if (!hasWidth && !hasHeight) {
-      throw new Error(`One of width or height is required`)
+      throw new Error('One of width or height is required')
     }
 
-    let transformation: TransformationParams = {
+    const transformation: TransformationParams = {
       ...(hasWidth && { width }),
       ...(hasHeight && { height }),
       crop: 'scale',
@@ -57,7 +56,7 @@ export default class Transform {
 
       return result
     } catch (err: unknown) {
-      return handleError(err, METHODS.RESIZE)
+      return handleThrowError(err, METHODS.RESIZE)
     }
   }
 
@@ -95,9 +94,10 @@ export default class Transform {
       })
 
       console.log(`[${METHODS.CROP}]: Success`, result)
+
       return result
     } catch (error) {
-      return handleError(error, METHODS.CROP)
+      return handleThrowError(error, METHODS.CROP)
     }
   }
 
@@ -113,12 +113,12 @@ export default class Transform {
   async format (
     publicId: string,
     format: string = 'auto',
-    options?: TransformationParams
+    options?: TransformationParams,
   ) {
     try {
       const transformation = {
         fetch_format: format,
-        ...(options && { options })
+        ...(options && { options }),
       }
 
       const result = await this.transform(publicId, transformation)
@@ -126,7 +126,7 @@ export default class Transform {
 
       return result
     } catch (error) {
-      return handleError(error, METHODS.FORMAT)
+      return handleThrowError(error, METHODS.FORMAT)
     }
   }
 
@@ -141,12 +141,12 @@ export default class Transform {
   async quality (
     publicId: string,
     quality: string = 'auto',
-    options?: TransformationParams
+    options?: TransformationParams,
   ) {
     try {
       const transformation = {
         quality,
-        ...(options && { ...options })
+        ...(options && { ...options }),
       }
 
       const result = await this.transform(publicId, transformation)
@@ -154,7 +154,7 @@ export default class Transform {
 
       return result
     } catch (error) {
-      return handleError(error, METHODS.QUALITY)
+      return handleThrowError(error, METHODS.QUALITY)
     }
   }
 }
