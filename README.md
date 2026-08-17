@@ -17,5 +17,10 @@ Using Docker
 2. Run the container.<br>
 `docker compose up`
 
+## References
+
+- [Cloudinary NPM Registry](https://www.npmjs.com/package/cloudinary)
+- [Cloudinary Node.js Docs](https://cloudinary.com/documentation/node_image_manipulation)
+
 @weaponsforge<br>
 20260817

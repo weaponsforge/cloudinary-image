@@ -10,6 +10,7 @@
     "node": ">=24"
   },
   "scripts": {
+    "dev": "export IS_DOCKER=true && node --inspect=0.0.0.0:9229 --import tsx src/main.ts",
     "build": "tsc -p tsconfig.json && tsc-alias",
     "types:check": "tsc -p tsconfig.json --noEmit",
     "watch": "tsc -p tsconfig.json --watch",
@@ -27,5 +28,9 @@
     "tsx": "^4.23.12",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0"
+  },
+  "dependencies": {
+    "cloudinary": "^2.10.0",
+    "dotenv": "^17.4.2"
   }
 }

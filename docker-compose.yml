@@ -4,9 +4,9 @@ services:
     container_name: cloudinary-cli
     image: weaponsforge/cloudinary-cli:dev
     env_file:
-      - ./.env
+      - ./app/.env
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile
       target: development
     volumes:
