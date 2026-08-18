@@ -31,7 +31,7 @@ export interface Filename {
 // Image Transformation types
 // ----------------------------------------------------
 
-export type TransformConfigUrlOptions = TransformationOptions | ConfigAndUrlOptions | undefined
+// Custom transformation types
 
 export interface ImageSize {
   width?: number;
@@ -53,8 +53,6 @@ export interface ImageCropOptions extends TransformOptionalParams {
 export interface TransformOptions
   extends ImageSize, TransformOptionalParams {}
 
-// Miscellaneous transformation types
-
 export interface TransformationStyles {
   width?: number;
   height?: number;
@@ -63,15 +61,6 @@ export interface TransformationStyles {
   background?: 'auto' | string;
   effect?: string; // eg., tint:40:red, improve:outdoor, art:zorro
 }
-
-/*
-export interface TransformationOptions extends TransformationStyles {
-  crop?: CropOptions | string;
-  gravity: string;                // eg., south_west
-  quality: 'auto' | number;
-  aspect_ratio: string;           // 16:9, etc
-}
-*/
 
 export type CropOptions =
   'scale' | 'pad' | 'thumb' | 'fill'
