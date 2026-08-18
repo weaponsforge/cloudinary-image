@@ -32,7 +32,7 @@ export default class BaseImage {
 
   initialize (options: ImageLocation) {
     if (!options.localFile) {
-      throw new Error(`${CLASS_NAME}: missing localFile or localDestination params`)
+      throw new Error(`${CLASS_NAME}: missing localFile input`)
     }
 
     const fileName = getFileName(options.localFile)
