@@ -8,7 +8,7 @@ const METHODS = {
 }
 
 /**
- * Wrapper around the Cloudinary Admin API for managing
+ * Wrapper around the Cloudinary Admin API for managing assets
  * @see https://cloudinary.com/documentation/node_asset_administration
  * @see https://cloudinary.com/documentation/admin_api
  */

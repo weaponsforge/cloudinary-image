@@ -96,6 +96,17 @@ npm start -- \
 
 > **NOTE**: This script is also accessible using `npx optimize`
 
+### `npm run dev`
+
+Runs the `npm start` script in development mode with `tsx`.
+
+Example usage:<br>
+`npm run dev -- -f /assets/sunset.jpg -u`
+
+### `npm run info`
+
+Logs the installed Node.js and npm version, environment platform, architecture and V8 version.
+
 ### `npm run build`
 
 Builds JavaScript, `.d.ts` declaration files, and map files from the TypeScript source files in the `/src` directory to the `/dist` directory.

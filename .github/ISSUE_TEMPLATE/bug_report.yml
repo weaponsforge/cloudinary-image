@@ -1,0 +1,66 @@
+name: Bug Report
+description: Create a bug report
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a new issue:
+
+        - Do a search of existing issues.
+        - Pull the latest updates from this repository's `dev` branch.
+
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      description: A step-by-step description of how to reproduce the issue, or a link to the reproducible repository.
+      placeholder: |
+        1. Start the application in development (npm run dev -- -f ./assets/suns.jpg -u)
+        2. Press enter
+        3. An error appears: "[ERROR] [CLOUD-IMAGE-UPLOAD] [UPLOAD] ENOENT: no such file or directory, open 'C:\lab\image-transformer\app\assets\suns.jpg'"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Current vs. Expected behavior
+      description: A clear and concise description of what the bug is, and what you expected to happen.
+      placeholder: 'Following the steps from the previous section, I expected A to happen, but I observed B instead'
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Provide environment information
+      description: Please run `npm run info` in the root directory of your project and paste the results.
+      render: bash
+      placeholder: |
+        Node version: v24.11.0
+        Platform: win32
+        Arch: x64
+        V8 version: 13.6.233.10-node.28
+        npm version: 11.6.1
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Which area(s) are affected? (Select all that apply)
+      multiple: true
+      options:
+        - 'Not sure'
+        - 'CLI/NPM scripts usage'
+        - 'Cloudinary credentials'
+        - 'Image input/output'
+        - 'Docker'
+        - 'Others'
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: |
+        Any extra information that might help us investigate.
+      placeholder: |
+        I tested my reproduction against different `cloudinary` releases, and the first one that introduced the bug was "v2.9.0", since reverting to "v2.10.0" works.
