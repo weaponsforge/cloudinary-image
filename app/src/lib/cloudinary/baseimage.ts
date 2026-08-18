@@ -48,6 +48,7 @@ export default class BaseImage {
     }
 
     if (!this.location.localDestination) {
+      // Create a "processed" directory relative to the file
       createDirectory(this.location.localFile)
         .then(destDir => {
           const destFile = join(destDir, fileName)
@@ -59,6 +60,8 @@ export default class BaseImage {
               cause: err,
             })
         })
+    } else {
+      this.location.localDestination = join(this.location.localDestination, `${fileName}`)
     }
   }
 
