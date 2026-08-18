@@ -18,6 +18,8 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 | CLOUDINARY_NAME | Cloudinary account name |
 | CLOUDINARY_API_KEY | Cloudinary API key |
 | CLOUDINARY_API_SECRET | Cloudinary API secret |
+| CHOKIDAR_USEPOLLING | Enables file watching on `tsx watch` running inside Docker containers on a Windows host. Set it to `true` if running Docker Desktop with WSL2 on a Windows OS host. |
+| CHOKIDAR_INTERVAL | Chokidar polling interval. Set it along with `CHOKIDAR_USEPOLLING=true` if running Docker Desktop with WSL2 on a Windows OS host. The default value is `1000`. |
 
 ## Usage
 
@@ -100,10 +102,13 @@ npm start -- \
 
 ### `npm run dev`
 
-Runs the `npm start` script in development mode with `tsx`.
+Runs the `npm start` script in development mode with file watching using `tsx`.
 
 Example usage:<br>
 `npm run dev -- -f /assets/sunset.jpg -u`
+
+> [!TIP]
+> Set `CHOKIDAR_USEPOLLING=true` and `CHOKIDAR_INTERVAL=1000` in the `.env` file to enable file watching on when running inside Docker containers on a Windows host.
 
 ### `npm run info`
 
