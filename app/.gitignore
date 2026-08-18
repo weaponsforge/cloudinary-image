@@ -13,3 +13,5 @@ dist/
 *.webp
 .env*
 src/**/*.js
+
+!.env.example
