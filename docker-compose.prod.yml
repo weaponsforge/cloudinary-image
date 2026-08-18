@@ -1,0 +1,16 @@
+# Docker compose file for building the production image only
+services:
+ cloudinary-cli:
+    container_name: cloudinary-cli
+    image: weaponsforge/cloudinary-cli
+    env_file:
+      - ./app/.env
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      target: production
+    volumes:
+      - ./app/assets:/opt/app/assets
+      - /opt/app/node_modules
+    environment:
+      - NODE_ENV=production

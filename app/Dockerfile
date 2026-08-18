@@ -11,7 +11,7 @@ COPY package*.json ./
 FROM base AS build
 RUN npm ci
 COPY --chown=node:node . ./
-RUN npm run transpile
+RUN npm run build
 
 # Development target profile
 FROM base AS development
@@ -29,4 +29,4 @@ RUN npm ci --only=production && npm cache clean --force
 
 COPY --chown=node:node --from=build /opt/app/dist /opt/app/dist
 USER node
-CMD ["sh"]
+ENTRYPOINT ["node", "/opt/app/dist/scripts/optimize/index.js"]

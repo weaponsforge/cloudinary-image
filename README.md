@@ -30,6 +30,31 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 
 3. Run the [Available Scripts](#available-scripts) using Docker.
 
+**Example using stand-alone development Docker image**
+
+(PowerShell - development)
+
+```sh
+docker run -it --rm \
+  --env-file .env \
+  -v ${pwd}/assets:/opt/app/images \
+  weaponsforge/cloudinary-cli:dev npm run docker:debug -- \
+  -f /opt/app/images/sunset.jpg -u
+```
+
+(PowerShell - production)
+
+Build the production image with<br>
+`docker compose -f docker-compose.prod.yml build`
+
+```sh
+ docker run -it --rm \
+   --env-file .env \
+   -v ${pwd}/assets:/opt/app/images \
+   weaponsforge/cloudinary-cli npx optimize \
+   -f /opt/app/images/sunset.jpg -u
+```
+
 #### B. Using Node.js
 
 1. Install dependencies.<br>
