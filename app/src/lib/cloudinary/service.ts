@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { handleThrowError, writeToFileBuffer } from '@/utils/helpers.js'
 import type { DeliveryType, ResourceType, UploadApiOptions } from 'cloudinary'
-import { } from 'cloudinary'
 
 const METHODS = {
   UPLOAD: 'UPLOAD',
