@@ -7,5 +7,15 @@ dist/
 *.txt
 *.d.ts
 *.map
+*.png
+*.jpg
+*.jpeg
+*.webp
 .env*
 src/**/*.js
+
+!.env.example
+
+assets/**
+!assets/bridge.jpg
+!assets/sunset.jpg
