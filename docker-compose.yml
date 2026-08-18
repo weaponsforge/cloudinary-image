@@ -1,16 +1,16 @@
 # Docker compose file for local development mode
 services:
- cloudinary-cli:
-    container_name: cloudinary-cli
+ cloudinary-cli-dev:
+    container_name: cloudinary-cli-dev
     image: weaponsforge/cloudinary-cli:dev
     env_file:
-      - ./.env
+      - ./app/.env
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile
       target: development
     volumes:
-      - .:/opt/app
+      - ./app:/opt/app
       - /opt/app/node_modules
     ports:
       - "9229:9229"     # VSCode debugger
