@@ -1,0 +1,72 @@
+name: Deploy Release
+
+# This workflow will trigger on any tag/release created from the `main` branch
+on:
+  release:
+    types: [published]
+
+jobs:
+  lint-test-app:
+    name: Lint and Test App
+    if: github.event.release.target_commitish == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+
+      - name: Use NodeJS v24.11.0
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.11.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install Dependencies
+        run: |
+          cd app
+          npm ci
+
+      - name: Lint
+        run: |
+          cd app
+          npm run lint
+
+      - name: Check types
+        run: |
+          cd app
+          npm run types:check
+
+  publish-npm:
+    name: Publish to NPM registry
+    if: github.event.release.target_commitish == 'main'
+    needs: [lint-test-app]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Use NodeJS v24.11.0
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.11.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: Build distribution package
+        run: |
+          cd app
+          npm ci
+          npm run build
+
+      - name: Publish package
+        run: |
+          cp LICENSE app/
+          cp docs/README_NPM.md app/README.md
+          cd app
+          npm publish --provenance --access public

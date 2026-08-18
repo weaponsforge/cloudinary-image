@@ -1,6 +1,7 @@
-## image-cli
+## cloudinary-image
 
-CLI that supports Cloudinary image transformations.
+Cloudinary image optimization CLI with Node.js wrappers for select [Cloudinary Node.js APIs](https://cloudinary.com/documentation/node_image_manipulation)<br>
+covering image transformation, optimization, and asset management.
 
 ### Requirements
 
@@ -29,6 +30,8 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 `docker compose up`
 
 3. Run the [Available Scripts](#available-scripts) using Docker.
+
+4. See the examples under the [Code Samples](#-code-samples) section for more information.
 
 **Example using the development Docker image**
 
@@ -63,6 +66,8 @@ Build the production image with<br>
 
 2. Run the [Available Scripts](#available-scripts).
 
+3. See the examples under the [Code Samples](#-code-samples) section for more information.
+
 ## Available Scripts
 
 ### `npm start`
@@ -91,7 +96,7 @@ npm start -- \
   -d                         # (Optional) flag to delete the uploaded image in Cloudinary
 ```
 
-> **NOTE**: This script is also accessible using `npx optimize`
+> **NOTE**: This script is also accessible using `npx optimize` minus the `--` flag.
 
 ### `npm run dev`
 
@@ -125,6 +130,115 @@ Watches file changes in `.ts` files using the `tsc --watch` option.
 ### `npm run docker:watch:win`
 
 Watches file changes in `.ts` files using the `tsc --watch` option with `dynamicPriorityPolling` in Docker containers running in Windows WSL2.
+
+## 🧾 Code Samples
+
+### A. Optimize an Image
+
+```typescript
+import { join } from 'node:path'
+import dotenv from 'dotenv'
+import { CloudinaryImage } from '@/lib/image.js'
+
+dotenv.config()
+
+const main = async () => {
+  const filePath = join(process.cwd(), 'boat.jpg')
+
+  const image = new CloudinaryImage({
+    localFile: filePath,
+    cloudinaryAssetFolder: 'my-folder',
+  })
+
+  await image.upload('sea,travel')
+  await image.optimize(600)
+  await image.delete()
+}
+
+main()
+```
+
+### B. Apply Image Transformations
+
+```typescript
+import dotenv from 'dotenv'
+import { CloudinaryImage } from '@/lib/image.js'
+import { join } from 'node:path'
+
+dotenv.config()
+
+const main = async () => {
+  const filePath = join(process.cwd(), 'boat.jpg')
+
+  const image = new CloudinaryImage({
+    localFile: filePath,
+    cloudinaryAssetFolder: 'my-folder',
+  })
+
+  // Upload image to Cloudinary
+  await image.upload('sea,travel')
+
+  // Generate URL of resized image
+  const urlResize = await image.transformer
+    .resize(image.publicId, {
+      width: 450
+    })
+
+  // Generate URL of cropped image
+  const urlCropped = await image.transformer
+    .crop(image.publicId, {
+      width: 400,
+      height: 200,
+      crop: 'scale'
+    })
+
+  // Generate URL of image's new format
+  const urlFormat = await image.transformer
+    .format(image.publicId, 'webp')
+
+  // Generate URL of image with improved quality
+  const urlQuality = await image.transformer
+    .quality(image.publicId, 'auto')
+
+  // Download one of the generated images
+  const downloadFilePath = join(process.cwd(), image.name)
+  await image.service.fetch(urlCropped, downloadFilePath)
+}
+
+main()
+```
+
+### C. Using Classes
+
+```typescript
+import { join } from 'node:path'
+
+import { AssetManager } from '@/lib/cloudinary/manager.js'
+import { AssetService } from '@/lib/cloudinary/service.js'
+import { BaseImage } from '@/lib/cloudinary/baseimage.js'
+import { Transform } from '@/lib/cloudinary/transform.js'
+
+// Class for managing Cloudinary assets
+const _manager = new AssetManager()
+
+// Class for uploading and fetching images from Cloudinary
+const _service = new AssetService()
+
+// Class for generating Cloudinary image transformations
+const _transformer = new Transform()
+
+// Initialize a new BaseImage - no Cloudinary libraries
+const inputFile = join(process.cwd(), 'boat.jpg')
+const outputFile = join(process.cwd(), 'images', 'done', 'processed.jpg')
+
+const _image = new BaseImage({
+  localFile: inputFile,
+  cloudinaryAssetFolder: 'my-folder',
+  localDestination: outputFile, // optional
+})
+
+// Note: the CloudinaryImage class is composed of all these components
+```
 
 ## References
 

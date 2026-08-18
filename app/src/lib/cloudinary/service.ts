@@ -20,7 +20,7 @@ type DeleteCallback = Parameters<typeof cloudinary.uploader.destroy>[1]
  * Wrapper around the Cloudinary Upload API for uploading and fetching assets
  * @see https://cloudinary.com/documentation/image_upload_api_reference
  */
-export default class AssetService {
+export class AssetService {
   /**
    * Uploads an asset
    * @param file - Local file path of asset to upload

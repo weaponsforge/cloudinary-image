@@ -1,7 +1,7 @@
 import { resolve } from 'node:path'
 import dotenv from 'dotenv'
 
-import CloudinaryImage from '@/lib/image.js'
+import { CloudinaryImage } from '@/lib/image.js'
 import { handleLogError } from '@/utils/helpers.js'
 
 dotenv.config()

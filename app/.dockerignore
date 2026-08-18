@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .git
+.github
 .vscode
 .dockerignore
 Dockerfile
@@ -22,5 +23,7 @@ README.md
 !package.json
 !package-lock.json
 !tsconfig.json
+!.env.example
 
 assets/
+
