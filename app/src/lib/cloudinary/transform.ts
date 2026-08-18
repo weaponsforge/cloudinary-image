@@ -1,9 +1,10 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { handleThrowError } from '@/utils/helpers.js'
-import type { ImageSize, ImageCropOptions } from '@/types/types.js'
-import type { TransformationParams } from '@/types/types.js'
+import type { ImageTransformationOptions } from '@/types/types.js'
+import type { TransformationOptions } from '@/types/types.js'
 
 const METHODS = {
+  GENERAL: 'GENERAL TRANSFORM',
   RESIZE: 'RESIZE',
   CROP: 'CROP',
   FORMAT: 'FORMAT',
@@ -11,7 +12,9 @@ const METHODS = {
 }
 
 /**
- * Wrapper around the Cloudinary Image transformation API
+ * Wrapper around the Cloudinary URL API for image transformations
+ * @see https://cloudinary.com/documentation/node_image_manipulation
+ * @see https://cloudinary.com/documentation/image_transformations
  */
 export default class Transform {
   /**
@@ -20,8 +23,12 @@ export default class Transform {
    * @param transformation - Cloudinary URL transformation options
    * @returns
    */
-  async transform (publicId: string, transformation: TransformationParams) {
-    return await cloudinary.url(publicId, { transformation })
+  async transform (publicId: string, transformation: TransformationOptions) {
+    try {
+      return await cloudinary.url(publicId, { transformation })
+    } catch (err) {
+      return handleThrowError(err, METHODS.GENERAL)
+    }
   }
 
   /**
@@ -34,7 +41,7 @@ export default class Transform {
    */
   async resize (
     publicId: string,
-    options: ImageSize,
+    options: ImageTransformationOptions,
   ) {
     const { width, height } = options
     const hasWidth = Boolean(width)
@@ -44,7 +51,7 @@ export default class Transform {
       throw new Error('One of width or height is required')
     }
 
-    const transformation: TransformationParams = {
+    const transformation: ImageTransformationOptions = {
       ...(hasWidth && { width }),
       ...(hasHeight && { height }),
       crop: 'scale',
@@ -74,7 +81,7 @@ export default class Transform {
    */
   async crop (
     publicId: string,
-    options: ImageCropOptions,
+    options: ImageTransformationOptions,
   ) {
     if (!('width' in options) || !('height' in options)) {
       throw new Error(`${METHODS.CROP}: Required width and height`)
@@ -113,7 +120,7 @@ export default class Transform {
   async format (
     publicId: string,
     format: string = 'auto',
-    options?: TransformationParams,
+    options?: ImageTransformationOptions,
   ) {
     try {
       const transformation = {
@@ -141,13 +148,16 @@ export default class Transform {
   async quality (
     publicId: string,
     quality: string = 'auto',
-    options?: TransformationParams,
+    options?: ImageTransformationOptions[],
   ) {
     try {
-      const transformation = {
-        quality,
-        ...(options && { ...options }),
+      let transformation: ImageTransformationOptions[] = []
+
+      if (Array.isArray(options)) {
+        transformation = [...options]
       }
+
+      transformation.push({ quality })
 
       const result = await this.transform(publicId, transformation)
       console.log(`[${METHODS.QUALITY}]: Success`, result)

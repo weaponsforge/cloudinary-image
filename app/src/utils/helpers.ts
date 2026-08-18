@@ -61,11 +61,10 @@ export const writeToFileBuffer = (pathToFile: string, buffer: Buffer<ArrayBuffer
  */
 export const loadEnv = (pathToEnv: string | undefined) => {
   if (!pathToEnv) return
-  console.log('---loading from', pathToEnv)
 
   dotenv.config({
     path: pathToEnv,
-    // quiet: true,
+    quiet: true,
   })
 }
 
@@ -75,18 +74,33 @@ export const loadEnv = (pathToEnv: string | undefined) => {
  * @param prefix - Calling function identifier
  */
 export const handleThrowError = (error: unknown, prefix: string = 'LOG'): never => {
+  // error is a legit Error
   if (error instanceof Error) {
-    const msg = `[${prefix}] Error: ${error.message}`
+    const msg = `[${prefix}] ${error.message}`
     throw new Error(msg, { cause: error })
   }
 
-  if (
+  if ( // error is an Object
     typeof error === 'object' &&
     error !== null &&
     'message' in error
   ) {
     throw new Error(
-      `[${prefix}] Error: ${String(error.message)}`,
+      `[${prefix}] ${error.message}`,
+      { cause: error },
+    )
+  }
+
+  if ( // error is an Object with an inner "error" object
+    typeof error === 'object' &&
+    error !== null &&
+    'error' in error
+  ) {
+    const { error: innerError } = error
+    const { message } = innerError as { message: string; http_code: number }
+
+    throw new Error(
+      `[${prefix}] ${message}`,
       { cause: error },
     )
   }
@@ -102,13 +116,21 @@ export const handleThrowError = (error: unknown, prefix: string = 'LOG'): never 
  */
 export const handleLogError = (error: unknown, prefix: string = 'LOG') => {
   if (error instanceof Error) {
-    console.log(`[${prefix}] Error: ${String(error.message)}`)
+    console.log(`[${prefix}] ${String(error.message)}`)
   } else if (
     typeof error === 'object' &&
     error !== null &&
     'message' in error
   ) {
-    console.log(`[${prefix}] Error: ${String(error.message)}`)
+    console.log(`[${prefix}] ${String(error.message)}`)
+  } else if (
+    typeof error === 'object' &&
+    error !== null &&
+    'error' in error
+  ) {
+    const { error: innerError } = error
+    const { message } = innerError as { message: string; http_code: number }
+    console.log(`[${prefix}] ${message}`)
   } else {
     console.log(`[${prefix}] An unknown error occured`)
   }

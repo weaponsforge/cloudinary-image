@@ -1,6 +1,6 @@
 import BaseImage from './cloudinary/baseimage.js'
 import AssetService from './cloudinary/service.js'
-import type { ImageLocation, TransformationParams } from '@/types/types.js'
+import type { ImageTransformationOptions, ImageLocation } from '@/types/types.js'
 import Transform from './cloudinary/transform.js'
 import type { UploadApiResponse } from 'cloudinary'
 import AssetManager from './cloudinary/manager.js'
@@ -9,6 +9,7 @@ import { handleThrowError } from '@/utils/helpers.js'
 const METHODS = {
   UPLOAD: 'CLOUD-IMAGE-UPLOAD',
   OPTIMIZE: 'CLOUD-IMAGE-OPTIMIZE',
+  DELETE: 'CLOUD-IMAGE-DELETE',
 }
 
 export default class CloudinaryImage extends BaseImage {
@@ -24,14 +25,16 @@ export default class CloudinaryImage extends BaseImage {
 
   /**
    * Uploads the `localFile` image to the `cloudinaryAssetFolder`
+   * @param tags - Comma-separated string tags associate with the image
    */
-  async upload () {
+  async upload (tags?: string) {
     try {
       this.log(`Uploading ${this.location.localFile} to\n${this.cloudinaryAssetFolder}`)
 
       const response = await this.service.upload(this.location.localFile, {
         public_id: this.publicId,
         asset_folder: this.cloudinaryAssetFolder,
+        ...(tags && { tags }),
       })
 
       this.meta = response
@@ -44,43 +47,59 @@ export default class CloudinaryImage extends BaseImage {
 
   /**
    * Optimizes the image uploaded in `localFile` in `cloudinaryAssetFolder` by
-   * resizing it to max 800px (or retaining size if < 800) and converting to webp
+   * resizing it to max 800px (or retaining size if < 800) and converting to webp.
+   * Downloads the optimized image into a `"processed"` folder relative to the `localFile`
    * @param customWidth - Custom image width
    * @returns
    */
   async optimize (customWidth: number = 800) {
     try {
-      this.log('\nStarting optimization...')
+      this.log('Starting optimization...')
       this.log('Fetching Cloudinary resource...')
 
       const maxWidth = 800
       const resource = await this.manager.getResource(this.location.publicId!)
       const { public_id, width } = resource
 
-      let transformOptions: TransformationParams = {
-        fetch_format: 'webp',
-      }
+      const transformOptions: ImageTransformationOptions[] = []
 
       if (width > maxWidth) {
-        transformOptions = {
-          ...transformOptions,
+        transformOptions.push({
           width: customWidth,
           crop: 'scale',
-        }
+        })
       }
 
+      transformOptions.push({
+        fetch_format: 'webp',
+      })
+
       this.log('Optimizing image...')
-      const result = await this.transformer.quality(public_id, 'auto', transformOptions)
+      const result = await this.transformer.quality(
+        public_id,
+        'auto',
+        transformOptions,
+      )
 
       this.log('Fetching optimized image...')
 
-      return await this.service.fetchImage(result, this.location.localDestination!)
+      return await this.service.fetch(result, this.location.localDestination!)
     } catch (error) {
       handleThrowError(error, METHODS.OPTIMIZE)
     }
   }
 
+  /**
+   * Deletes this image asset
+   */
   async delete () {
-    return await this.manager.deleteResources([this.publicId])
+    try {
+      this.log(`Deleting ${this.publicId}...`)
+      const result = await this.service.delete(this.publicId, { invalidate: true })
+
+      console.log(result)
+    } catch (err) {
+      handleThrowError(err, METHODS.DELETE)
+    }
   }
 }

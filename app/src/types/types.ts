@@ -1,4 +1,6 @@
 import type { TransformationOptions, ConfigAndUrlOptions } from 'cloudinary'
+export type { ImageTransformationOptions } from 'cloudinary'
+export type { TransformationOptions, ConfigAndUrlOptions }
 
 // ----------------------------------------------------
 // Base Image types
@@ -29,7 +31,7 @@ export interface Filename {
 // Image Transformation types
 // ----------------------------------------------------
 
-export type TransformationParams = TransformationOptions | ConfigAndUrlOptions | undefined
+export type TransformConfigUrlOptions = TransformationOptions | ConfigAndUrlOptions | undefined
 
 export interface ImageSize {
   width?: number;
