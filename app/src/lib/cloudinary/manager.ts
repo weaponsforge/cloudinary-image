@@ -1,5 +1,5 @@
-import { handleThrowError } from '@/utils/helpers.js'
 import { v2 as cloudinary, type AdminAndPublishOptions } from 'cloudinary'
+import { handleThrowError } from '@/utils/helpers.js'
 
 const METHODS = {
   URL: 'GET URL',
@@ -12,7 +12,7 @@ const METHODS = {
  * @see https://cloudinary.com/documentation/node_asset_administration
  * @see https://cloudinary.com/documentation/admin_api
  */
-export default class AssetManager {
+export class AssetManager {
   /**
    * Retrieves the Cloudinary URL of an asset by `public_id`
    * @param publicId - Cloudinary image public ID

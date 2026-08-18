@@ -1,10 +1,11 @@
-import BaseImage from './cloudinary/baseimage.js'
-import AssetService from './cloudinary/service.js'
-import type { ImageTransformationOptions, ImageLocation } from '@/types/types.js'
-import Transform from './cloudinary/transform.js'
-import type { UploadApiResponse } from 'cloudinary'
-import AssetManager from './cloudinary/manager.js'
+import { BaseImage } from './cloudinary/baseimage.js'
+import { AssetService } from './cloudinary/service.js'
+import { Transform } from './cloudinary/transform.js'
+import { AssetManager } from './cloudinary/manager.js'
 import { handleThrowError } from '@/utils/helpers.js'
+
+import type { UploadApiResponse } from 'cloudinary'
+import type { ImageTransformationOptions, ImageLocation } from '@/types/types.js'
 
 const METHODS = {
   UPLOAD: 'CLOUD-IMAGE-UPLOAD',
@@ -12,7 +13,10 @@ const METHODS = {
   DELETE: 'CLOUD-IMAGE-DELETE',
 }
 
-export default class CloudinaryImage extends BaseImage {
+/**
+ * Cloudinary image methods with local image file definitions
+ */
+export class CloudinaryImage extends BaseImage {
   service = new AssetService()
   manager = new AssetManager()
   transformer = new Transform()

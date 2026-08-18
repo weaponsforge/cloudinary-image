@@ -1,17 +1,26 @@
 {
-  "name": "app",
+  "name": "cloudinary-image",
   "version": "1.0.0",
-  "description": "",
-  "license": "MIT",
-  "author": "weaponsforge",
+  "description": "Cloudinary image library wrapper and CLI for optimization and transformations",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": ">=24"
   },
   "bin": {
     "optimize": "./dist/scripts/optimize/index.js"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "node ./dist/scripts/optimize/index.js",
     "dev": "tsx ./src/scripts/optimize",
@@ -24,6 +33,22 @@
     "docker:watch:win": "tsc -p tsconfig.json --watch --watchFile dynamicPriorityPolling --watchDirectory dynamicPriorityPolling",
     "info": "tsx ./src/scripts/envinfo"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weaponsforge/image-transformations.git"
+  },
+  "keywords": [
+    "cloudinary",
+    "image",
+    "transformations",
+    "cli"
+  ],
+  "author": "weaponsforge",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weaponsforge/image-transformations/issues"
+  },
+  "homepage": "https://github.com/weaponsforge/image-transformations#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.2.0",

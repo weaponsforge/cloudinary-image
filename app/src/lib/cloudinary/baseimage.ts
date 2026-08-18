@@ -1,15 +1,15 @@
 import { join } from 'node:path'
-
 import { v2 as cloudinary } from 'cloudinary'
-import type { ImageLocation } from '@/types/types.js'
+
 import { createDirectory, getFileName } from '@/utils/helpers.js'
+import type { ImageLocation } from '@/types/types.js'
 
 const CLASS_NAME = 'BASE IMAGE'
 
 /**
- * Base Cloudinary to local file image definitions.
+ * Base image class with local file definitions and metadata.
  */
-export default class BaseImage {
+export class BaseImage {
   location: ImageLocation = {
     localFile: '',
     localDestination: '',

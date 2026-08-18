@@ -1,7 +1,9 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { handleThrowError } from '@/utils/helpers.js'
-import type { ImageTransformationOptions } from '@/types/types.js'
-import type { TransformationOptions } from '@/types/types.js'
+import type {
+  ImageTransformationOptions,
+  TransformationOptions,
+} from '@/types/types.js'
 
 const METHODS = {
   GENERAL: 'GENERAL TRANSFORM',
@@ -16,7 +18,7 @@ const METHODS = {
  * @see https://cloudinary.com/documentation/node_image_manipulation
  * @see https://cloudinary.com/documentation/image_transformations
  */
-export default class Transform {
+export class Transform {
   /**
    * Cloudinary.url() transformation wrapper
    * @param publicId - Cloudinary image public ID
