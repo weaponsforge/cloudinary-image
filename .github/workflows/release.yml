@@ -66,7 +66,7 @@ jobs:
 
       - name: Publish package
         run: |
-          chmod u+x app/scripts/npm-publish.sh
-          ./app/scripts/npm-publish.sh
+          cp LICENSE app/
+          cp docs/README_NPM.md app/README.md
           cd app
           npm publish --provenance --access public

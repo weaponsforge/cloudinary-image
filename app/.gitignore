@@ -19,3 +19,6 @@ src/**/*.js
 assets/**
 !assets/bridge.jpg
 !assets/sunset.jpg
+
+LICENSE
+README.md
