@@ -40,7 +40,11 @@ export default class BaseImage {
     this.location = options
 
     if (!this.location.publicId) {
-      this.location.publicId = fileName
+      const endIndex = fileName.indexOf('.') >= 1
+        ? fileName.indexOf('.')
+        : fileName.length
+
+      this.location.publicId = fileName.substring(0, endIndex)
     }
 
     if (!this.location.localDestination) {
