@@ -59,10 +59,16 @@ export default class AssetService {
    * Downloads a Cloudinary asset to local disk
    * @param url - Public acessible Cloudinary URL to an asset
    * @param filePath - Local file path in which to save the asset
+   * @param extension - (Optional) file extension for downloaded files
    */
-  async fetch (url: string, filePath: string) {
+  async fetch (url: string, filePath: string, extension?: string) {
     if (!url) throw new Error('Undefined URL')
     if (!filePath) throw new Error('Undefined filePath')
+    let downloadFilePath = filePath
+
+    if (extension) {
+      downloadFilePath = filePath.substring(0, filePath.lastIndexOf('.') + 1) + extension
+    }
 
     try {
       const response = await fetch(url)
@@ -72,9 +78,9 @@ export default class AssetService {
       }
 
       const buffer = Buffer.from(await response.arrayBuffer())
-      writeToFileBuffer(filePath, buffer)
+      writeToFileBuffer(downloadFilePath, buffer)
 
-      console.log(`[${METHODS.FETCH}]: File downloaded in\n${filePath}`)
+      console.log(`[${METHODS.FETCH}]: File downloaded in\n${downloadFilePath}`)
     } catch (err: unknown) {
       handleThrowError(err, METHODS.FETCH)
     }
