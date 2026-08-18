@@ -15,3 +15,7 @@ dist/
 src/**/*.js
 
 !.env.example
+
+assets/**
+!assets/bridge.jpg
+!assets/sunset.jpg

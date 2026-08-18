@@ -38,4 +38,10 @@ const { values } = parseArgs({
   },
 })
 
-optimize(values)
+if (process.env.IS_DOCKER) {
+  setTimeout(() => {
+    optimize(values)
+  }, 5000)
+} else {
+  optimize(values)
+}
