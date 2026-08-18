@@ -1,7 +1,7 @@
 # Docker compose file for local development mode
 services:
  cloudinary-cli-dev:
-    container_name: cloudinary-dev
+    container_name: cloudinary-cli-dev
     image: weaponsforge/cloudinary-cli:dev
     env_file:
       - ./app/.env
