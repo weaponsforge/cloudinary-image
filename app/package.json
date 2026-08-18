@@ -18,6 +18,7 @@
   },
   "files": [
     "dist",
+    "!dist/demo",
     "README.md",
     "LICENSE"
   ],
@@ -35,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weaponsforge/image-transformations.git"
+    "url": "git+https://github.com/weaponsforge/cloudinary-image.git"
   },
   "keywords": [
     "cloudinary",
@@ -46,9 +47,9 @@
   "author": "weaponsforge",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/weaponsforge/image-transformations/issues"
+    "url": "https://github.com/weaponsforge/cloudinary-image/issues"
   },
-  "homepage": "https://github.com/weaponsforge/image-transformations#readme",
+  "homepage": "https://github.com/weaponsforge/cloudinary-image#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.2.0",
