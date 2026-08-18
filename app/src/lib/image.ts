@@ -74,8 +74,8 @@ export default class CloudinaryImage extends BaseImage {
         fetch_format: 'webp',
       })
 
-      this.log('Optimizing image...')
-      const result = await this.transformer.quality(
+      this.log('Generating optimized image URL...')
+      const cloudinaryURL = await this.transformer.quality(
         public_id,
         'auto',
         transformOptions,
@@ -83,7 +83,7 @@ export default class CloudinaryImage extends BaseImage {
 
       this.log('Fetching optimized image...')
 
-      return await this.service.fetch(result, this.location.localDestination!)
+      return await this.service.fetch(cloudinaryURL, this.location.localDestination!, 'webp')
     } catch (error) {
       handleThrowError(error, METHODS.OPTIMIZE)
     }
