@@ -92,7 +92,7 @@ npm start -- \
   -d                         # (Optional) flag to delete the uploaded image in Cloudinary
 ```
 
-> **NOTE**: This script is also accessible using `npx optimize`
+> **NOTE**: This script is also accessible using `npx optimize` minus the `--` flag.
 
 ### `npm run dev`
 
