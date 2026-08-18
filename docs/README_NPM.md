@@ -24,7 +24,7 @@ covering image transformation, optimization, and asset management.
    | CLOUDINARY_API_KEY | Cloudinary API key |
    | CLOUDINARY_API_SECRET | Cloudinary API secret |
 
-2. Optimize images programmatically via code. See the examples under the [Code Samples]() section for more information.
+3. Optimize images programmatically via code. See the examples under the [Code Samples](#-code-samples) section for more information.
 
 <br>
 

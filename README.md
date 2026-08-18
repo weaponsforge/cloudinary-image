@@ -31,6 +31,8 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 
 3. Run the [Available Scripts](#available-scripts) using Docker.
 
+4. See the examples under the [Code Samples](#-code-samples) section for more information.
+
 **Example using the development Docker image**
 
 (PowerShell - development)
@@ -63,6 +65,8 @@ Build the production image with<br>
    ```
 
 2. Run the [Available Scripts](#available-scripts).
+
+3. See the examples under the [Code Samples](#-code-samples) section for more information.
 
 ## Available Scripts
 
