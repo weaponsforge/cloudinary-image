@@ -135,3 +135,27 @@ export const handleLogError = (error: unknown, prefix: string = 'LOG') => {
     console.log(`[${prefix}] An unknown error occured`)
   }
 }
+
+/**
+ * Tiny arg parser for `--key=value` style flags
+ * @param {string[]} args - Raw args, typically process.argv.slice(2)
+ * @returns {Object} Parsed key/value pairs
+ */
+export const parseArgs = (args: string[]): Record<string, string | boolean> => {
+  const result: Record<string, string | boolean> = {}
+
+  for (const arg of args) {
+    if (!arg.startsWith('--')) continue
+
+    const [key, ...values] = arg.slice(2).split('=')
+
+    if (key) {
+      result[key] = values.length > 0
+        ? values.join('=')
+        : true // supports flags with no value, e.g. --verbose
+    }
+  }
+
+  return result
+}
+
