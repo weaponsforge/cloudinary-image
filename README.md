@@ -119,9 +119,6 @@ Runs the `npm start` script in development mode with file watching using `tsx`.
 Example usage:<br>
 `npm run dev -- -f /assets/sunset.jpg -u`
 
-> [!TIP]
-> Set `CHOKIDAR_USEPOLLING=true` and `CHOKIDAR_INTERVAL=1000` in the `.env` file to enable file watching on when running inside Docker containers on a Windows host.
-
 ### `npm run info`
 
 Logs the installed Node.js and npm version, environment platform, architecture and V8 version.
@@ -143,6 +140,15 @@ Fixes lint errors in TypeScript files.
 ### `npm run watch`
 
 Watches file changes in `.ts` files using the `tsc --watch` option.
+
+### `npm run docker:dev`
+
+Docker counterpart of the `npm run dev` script. Exports the `IS_DOCKER=true` variable and runs the `npm run dev` script in development mode with file watching using `tsx` within Docker.
+
+> [!TIP]
+> Set `CHOKIDAR_USEPOLLING=true` and `CHOKIDAR_INTERVAL=1000` in the `.env` file to enable file watching on when running inside Docker containers on a Windows host.
+>
+> Uncomment and use ` _values` in  **/src/scripts/optimize/index.ts** to manually set `optimize(_values)` not from CLI input.
 
 ### `npm run docker:watch:win`
 
