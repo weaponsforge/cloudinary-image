@@ -31,9 +31,13 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 2. Run the container.<br>
 `docker compose up`
 
-3. Run the [Available Scripts](#available-scripts) using Docker.
+3. Edit the `.ts` source files and watch for changes.
 
-4. See the examples under the [Code Samples](#-code-samples) section for more information.
+4. Run the [Available Scripts](#available-scripts) using Docker.
+
+5. See the examples under the [Code Samples](#-code-samples) section for more information.
+
+
 
 **Example using the development Docker image**
 
@@ -59,16 +63,24 @@ Build the production image with<br>
 
 #### B. Using Node.js
 
-1. Install dependencies.<br>
+1. Install dependencies.
 
    ```sh
    cd app
    npm install
    ```
 
-2. Run the [Available Scripts](#available-scripts).
+2. Run the app in development mode.
 
-3. See the examples under the [Code Samples](#-code-samples) section for more information.
+   ```
+   npm run dev
+   ```
+
+3. Edit the `.ts` source files and watch for changes.
+
+4. Run the [Available Scripts](#available-scripts).
+
+5. See the examples under the [Code Samples](#-code-samples) section for more information.
 
 ## Available Scripts
 

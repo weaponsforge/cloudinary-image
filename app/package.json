@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "start": "node ./dist/scripts/optimize/index.js",
-    "dev": "tsx watch ./src/scripts/optimize",
+    "dev": "export IS_DOCKER=true && tsx watch ./src/scripts/optimize",
     "build": "tsc -p tsconfig.json && tsc-alias",
     "types:check": "tsc -p tsconfig.json --noEmit",
     "watch": "tsc -p tsconfig.json --watch",

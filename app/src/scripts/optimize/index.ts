@@ -38,6 +38,18 @@ const { values } = parseArgs({
   },
 })
 
+// Uncomment and use _values in optimize(_values) when
+// 1. running `npm run dev` in Docker and
+// 2. when not capturing CLI input parameters (eg., -f 'assets/bridge.jpg' -w 400 -u, etc)
+/*
+const _values: Record<string, string | boolean> = {
+  file: 'assets/bridge.jpg',
+  width: 400,
+  upload: true,
+  deleteAfter: true
+}
+*/
+
 if (process.env.IS_DOCKER) {
   setTimeout(() => {
     optimize(values)
