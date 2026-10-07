@@ -1,7 +1,19 @@
 ## cloudinary-image
 
-Cloudinary image optimization CLI with Node.js wrappers for select [Cloudinary Node.js APIs](https://cloudinary.com/documentation/node_image_manipulation)<br>
-covering image transformation, optimization, and asset management.
+Cloudinary-powered image optimization CLI with Node.js wrappers for select [Cloudinary Node.js APIs](https://cloudinary.com/documentation/node_image_manipulation), covering automatic image optimization, transformation, and asset management.
+
+Cloudinary's automatic optimization reduces the need to manually tune image dimensions, quality, compression, and formats. Unlike libraries such as Sharp or FFmpeg, where developers often need to experiment with processing parameters to find the right balance between visual quality and file size, Cloudinary can automatically optimize images for efficient delivery while preserving visual quality.
+
+The result: less optimization guesswork, smaller assets, and better image delivery with less application-side processing.
+
+### CLI Available
+
+> - **Run via npx (no installation required)**
+>   - Requirements: NodeJS LTS v24.11.0 or later, and a `.env` file
+>   - Run `npx cloudinary-image -f ./full/path/to/picture.jpg -u -d`
+>
+> - **Docker image**<br>
+>   A Docker image is available at<br>https://hub.docker.com/r/weaponsforge/cloudinary-cli
 
 ### Requirements
 
