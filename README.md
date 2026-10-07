@@ -18,6 +18,8 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 | CLOUDINARY_NAME | Cloudinary account name |
 | CLOUDINARY_API_KEY | Cloudinary API key |
 | CLOUDINARY_API_SECRET | Cloudinary API secret |
+| CHOKIDAR_USEPOLLING | Enables file watching on `tsx watch` running inside Docker containers on a Windows host. Set it to `true` if running Docker Desktop with WSL2 on a Windows OS host. |
+| CHOKIDAR_INTERVAL | Chokidar polling interval. Set it along with `CHOKIDAR_USEPOLLING=true` if running Docker Desktop with WSL2 on a Windows OS host. The default value is `1000`. |
 
 ## Usage
 
@@ -29,9 +31,13 @@ Create a `.env` file in the `/app` directory, replacing the contents of the `.en
 2. Run the container.<br>
 `docker compose up`
 
-3. Run the [Available Scripts](#available-scripts) using Docker.
+3. Edit the `.ts` source files and watch for changes.
 
-4. See the examples under the [Code Samples](#-code-samples) section for more information.
+4. Run the [Available Scripts](#available-scripts) using Docker.
+
+5. See the examples under the [Code Samples](#-code-samples) section for more information.
+
+
 
 **Example using the development Docker image**
 
@@ -57,16 +63,24 @@ Build the production image with<br>
 
 #### B. Using Node.js
 
-1. Install dependencies.<br>
+1. Install dependencies.
 
    ```sh
    cd app
    npm install
    ```
 
-2. Run the [Available Scripts](#available-scripts).
+2. Run the app in development mode.
 
-3. See the examples under the [Code Samples](#-code-samples) section for more information.
+   ```
+   npm run dev
+   ```
+
+3. Edit the `.ts` source files and watch for changes.
+
+4. Run the [Available Scripts](#available-scripts).
+
+5. See the examples under the [Code Samples](#-code-samples) section for more information.
 
 ## Available Scripts
 
@@ -100,7 +114,7 @@ npm start -- \
 
 ### `npm run dev`
 
-Runs the `npm start` script in development mode with `tsx`.
+Runs the `npm start` script in development mode with file watching using `tsx`.
 
 Example usage:<br>
 `npm run dev -- -f /assets/sunset.jpg -u`
@@ -126,6 +140,15 @@ Fixes lint errors in TypeScript files.
 ### `npm run watch`
 
 Watches file changes in `.ts` files using the `tsc --watch` option.
+
+### `npm run docker:dev`
+
+Docker counterpart of the `npm run dev` script. Exports the `IS_DOCKER=true` variable and runs the `npm run dev` script in development mode with file watching using `tsx` within Docker.
+
+> [!TIP]
+> Set `CHOKIDAR_USEPOLLING=true` and `CHOKIDAR_INTERVAL=1000` in the `.env` file to enable file watching on when running inside Docker containers on a Windows host.
+>
+> Uncomment and use ` _values` in  **/src/scripts/optimize/index.ts** to manually set `optimize(_values)` not from CLI input.
 
 ### `npm run docker:watch:win`
 

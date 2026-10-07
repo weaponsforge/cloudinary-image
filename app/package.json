@@ -1,6 +1,6 @@
 {
   "name": "cloudinary-image",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cloudinary image library wrapper and CLI for optimization and transformations",
   "type": "module",
   "main": "dist/index.js",
@@ -24,12 +24,13 @@
   ],
   "scripts": {
     "start": "node ./dist/scripts/optimize/index.js",
-    "dev": "tsx ./src/scripts/optimize",
+    "dev": "tsx watch ./src/scripts/optimize",
     "build": "tsc -p tsconfig.json && tsc-alias",
     "types:check": "tsc -p tsconfig.json --noEmit",
     "watch": "tsc -p tsconfig.json --watch",
     "lint": "eslint \"src/**/*.ts\" *.mjs",
     "lint:fix": "eslint \"src/**/*.ts\" *.mjs --fix",
+    "docker:dev": "export IS_DOCKER=true && tsx watch ./src/scripts/optimize",
     "docker:debug": "export IS_DOCKER=true && node --inspect=0.0.0.0:9229 --import tsx src/scripts/optimize/index.ts",
     "docker:watch:win": "tsc -p tsconfig.json --watch --watchFile dynamicPriorityPolling --watchDirectory dynamicPriorityPolling",
     "info": "tsx ./src/scripts/envinfo"
@@ -52,16 +53,16 @@
   "homepage": "https://github.com/weaponsforge/cloudinary-image#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.2.0",
-    "eslint": "^10.8.1",
-    "globals": "^17.11.0",
-    "tsc-alias": "^1.9.1",
-    "tsx": "^4.23.12",
+    "@types/node": "^26.6.4",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "tsc-alias": "^1.9.7",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.71.1"
   },
   "dependencies": {
-    "cloudinary": "^2.10.0",
-    "dotenv": "^17.4.2"
+    "cloudinary": "^2.11.0",
+    "dotenv": "^18.0.6"
   }
 }

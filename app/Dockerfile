@@ -19,7 +19,7 @@ RUN npm ci
 COPY --chown=node:node . ./
 USER node
 EXPOSE 9229
-CMD ["sh"]
+CMD ["npm", "run", "docker:dev"]
 
 # Proudction target profile
 FROM base AS production

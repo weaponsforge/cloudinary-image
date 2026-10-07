@@ -16,7 +16,7 @@ covering image transformation, optimization, and asset management.
    npm i cloudinary-image
    ```
 
-2. Create a `.env` file in the `/app` directory, replacing the contents of the `.env.example` file with actual values.
+2. Create a `.env` file in your project directory, replacing the contents of the `.env.example` file with actual values.
 
    | Variable Name | Description |
    | --- | --- |
