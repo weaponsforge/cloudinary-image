@@ -50,29 +50,30 @@ export class CloudinaryImage extends BaseImage {
   }
 
   /**
-   * Optimizes the image uploaded in `localFile` in `cloudinaryAssetFolder` by
-   * resizing it to max 800px (or retaining size if < 800) and converting to webp.
+   * Optimizes the `localFile` image uploaded in the `cloudinaryAssetFolder` by
+   * resizing it to `customWidth` if provided and converting to webp.
    * Downloads the optimized image into a `"processed"` folder relative to the `localFile`
-   * @param customWidth - Custom image width
+   * @param customWidth - (Optional) custom image width
    * @returns
    */
-  async optimize (customWidth: number = 800) {
+  async optimize (customWidth?: number) {
     try {
+      if (customWidth !== undefined && (!Number.isFinite(customWidth) || customWidth <= 0)) {
+        throw new Error('customWidth must be a positive non-zero number')
+      }
+
       this.log('Starting optimization...')
       this.log('Fetching Cloudinary resource...')
 
-      const maxWidth = 800
       const resource = await this.manager.getResource(this.location.publicId!)
       const { public_id, width } = resource
 
       const transformOptions: ImageTransformationOptions[] = []
 
-      if (width > maxWidth) {
-        transformOptions.push({
-          width: customWidth,
-          crop: 'scale',
-        })
-      }
+      transformOptions.push({
+        width: customWidth ?? width,
+        crop: 'scale',
+      })
 
       transformOptions.push({
         fetch_format: 'webp',

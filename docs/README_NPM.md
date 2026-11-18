@@ -9,7 +9,7 @@ The result: less optimization guesswork, smaller assets, and better image delive
 ### CLI Available
 
 > - **Run via npx (no installation required)**
->   - Requirements: NodeJS LTS v24.11.0 or later, and a `.env` file
+>   - Requirements: NodeJS LTS v24 or later, and a `.env` file
 >   - Run `npx cloudinary-image -f ./full/path/to/picture.jpg -u -d`
 >
 > - **Docker image**<br>
