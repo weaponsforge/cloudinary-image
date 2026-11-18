@@ -13,10 +13,10 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v6
 
-      - name: Use NodeJS v24.11.0
+      - name: Use NodeJS v24.22.3
         uses: actions/setup-node@v6
         with:
-          node-version: 24.11.0
+          node-version: 24.22.3
           registry-url: https://registry.npmjs.org/
 
       - name: Install Dependencies

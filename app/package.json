@@ -1,6 +1,6 @@
 {
   "name": "cloudinary-image",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cloudinary image library wrapper and CLI for optimization and transformations",
   "type": "module",
   "main": "dist/index.js",
